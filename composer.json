@@ -1,0 +1,22 @@
+{
+    "name": "realconnex/http-request",
+    "description": "Realconnex request library.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Realconnex",
+            "email": "info@realconnex.com"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Realconnex\\": "src"
+        }
+    },
+    "require": {
+        "php": ">=7.0.0"
+    }
+}
