@@ -16,31 +16,23 @@ class HttpRequest
     const METHOD_POST = 'post';
     const METHOD_PUT = 'put';
     const METHOD_DELETE = 'delete';
+
     const HEADER_AUTH_TOKEN = 'Authorization';
-    /**
-     * @var bool flag indicates if exceptions should be processed automatically
-     */
+
+    /** @var bool flag indicates if exceptions should be processed automatically */
     private $processExceptions = true;
-    /**
-     * @var array
-     */
-    protected $webServices;
-    /**
-     * @var bool
-     */
-    protected $verifyHost;
-    /**
-     * @var bool
-     */
-    protected $parseJson;
-    /**
-     * @var string
-     */
-    protected $authToken;
-    /**
-     * @var bool
-     */
-    protected $provideAuth;
+    /** @var array */
+    private $webServices;
+    /** @var bool */
+    private $verifyHost;
+    /** @var bool */
+    private $parseJson;
+    /** @var string */
+    private $authToken;
+    /** @var bool */
+    private $provideAuth;
+    /** @var string */
+    private $schema = 'http://';
     /**
      * HttpService constructor.
      * @param array $webServices
@@ -92,6 +84,7 @@ class HttpRequest
     public function setParseJson(bool $parseJson): self
     {
         $this->parseJson = $parseJson;
+
         return $this;
     }
     /**
@@ -109,6 +102,7 @@ class HttpRequest
     public function setAuthToken(?string $authToken): self
     {
         $this->authToken = $authToken;
+
         return $this;
     }
     /**
@@ -127,6 +121,14 @@ class HttpRequest
     public function setProvideAuth(bool $provideAuth): self
     {
         $this->provideAuth = $provideAuth;
+
+        return $this;
+    }
+
+    public function useHttps(): self
+    {
+        $this->schema = 'https://';
+
         return $this;
     }
     /**
@@ -186,6 +188,7 @@ class HttpRequest
         if ($this->getParseJson()) {
             return $this->parseJson($response);
         }
+
         return $response;
     }
     /**
@@ -214,8 +217,9 @@ class HttpRequest
         if (!empty($authToken) && $this->getProvideAuth()) {
             $headers[self::HEADER_AUTH_TOKEN] = $authToken;
         }
+
         return new Client([
-            'base_uri' => 'https://' . $this->webServices[$service] . '/',
+            'base_uri' => $this->schema . $this->webServices[$service] . '/',
             'verify' => $this->verifyHost,
             'headers' => $headers
         ]);

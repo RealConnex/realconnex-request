@@ -15,21 +15,19 @@ parameters:
     frontendHostName: '%env(FRONTEND_HOSTNAME)%'
     # web services names configuration
     webServices:
-        green: 'green-rcx'
-        blue: 'blue-rcx'
-        mc: 'mc-rcx'
-        feed: 'feed-rcx'
-        mbau: 'mba-rcx'
-        search: 'search-rcx'
-        email: 'email-rcx'
-        fapi: 'fapi-rcx'
-        file: 'file-rcx'
+        green: '%env(string:SERVICE_DOMAIN_GREEN)%'
+        blue: '%env(string:SERVICE_DOMAIN_BLUE)%'
+        mc: '%env(string:SERVICE_DOMAIN_MC)%'
+        feed: '%env(string:SERVICE_DOMAIN_FEED)%'
+        mbau: '%env(string:SERVICE_DOMAIN_MBA)%'
+        search: '%env(string:SERVICE_DOMAIN_SEARCH)%'
+        email: '%env(string:SERVICE_DOMAIN_EMAIL)%'
+        fapi: '%env(string:SERVICE_DOMAIN_FAPI)%'
+        file: '%env(string:SERVICE_DOMAIN_FILE)%'
 services:
     Realconnex\HttpRequest:
         arguments:
             $webServices: '%webServices%'
             $verifyHost: '%verifyHost%'
-            $parseJson: '%httpService.parseJson%'
-            $provideAuth: '%httpService.provideAuth%'
         public: true
 ```
