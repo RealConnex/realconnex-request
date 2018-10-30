@@ -61,7 +61,7 @@ class HttpRequest
     /**
      * Set process exceptions
      * @param bool $processExceptions
-     * @return HttpService
+     * @return HttpRequest
      */
     public function setProcessExceptions(bool $processExceptions): self
     {
@@ -79,7 +79,7 @@ class HttpRequest
     /**
      * Set parse JSON flag
      * @param bool $parseJson
-     * @return HttpService
+     * @return HttpRequest
      */
     public function setParseJson(bool $parseJson): self
     {
@@ -97,7 +97,7 @@ class HttpRequest
     /**
      * Set auth token
      * @param null|string $authToken
-     * @return HttpService
+     * @return HttpRequest
      */
     public function setAuthToken(?string $authToken): self
     {
@@ -116,7 +116,7 @@ class HttpRequest
     /**
      * Set provide auth flag
      * @param bool $provideAuth
-     * @return HttpService
+     * @return HttpRequest
      */
     public function setProvideAuth(bool $provideAuth): self
     {
