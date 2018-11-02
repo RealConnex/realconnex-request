@@ -1,7 +1,7 @@
 {
     "name": "realconnex/http-request",
     "description": "Realconnex request library.",
-    "license": "Proprietary",
+    "license": "MIT",
     "authors": [
         {
             "name": "Realconnex",
