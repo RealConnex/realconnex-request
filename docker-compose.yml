@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+    package:
+        container_name: realconnex.http-request
+        build:
+            context: .
+            dockerfile: Dockerfile
+        volumes:
+          - './:/package'

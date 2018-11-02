@@ -147,6 +147,11 @@ class HttpRequest
 
        return $this;
     }
+
+    public function getSchema(): string
+    {
+        return $this->schema;
+    }
     /**
      * Send request to service
      * @param string $service
@@ -214,6 +219,11 @@ class HttpRequest
     public function parseJson(Response $response)
     {
         return json_decode($response->getBody()->getContents(), $this->parseJsonAssoc);
+    }
+
+    public function getParseJsonAssoc(): bool
+    {
+        return $this->parseJsonAssoc;
     }
     /**
      * Prepares request client.
