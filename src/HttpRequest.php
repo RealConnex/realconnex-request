@@ -8,6 +8,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\RequestOptions;
+use Realconnex\Exceptions\NonExistentServiceException;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class HttpRequest
@@ -69,6 +70,7 @@ class HttpRequest
     public function setProcessExceptions(bool $processExceptions): self
     {
         $this->processExceptions = $processExceptions;
+
         return $this;
     }
     /**
@@ -235,7 +237,7 @@ class HttpRequest
     private function prepareClient(string $service): Client
     {
         if (!in_array($service, array_keys($this->webServices))) {
-            throw new \Exception('Incorrect web service');
+            throw new NonExistentServiceException($service);
         }
         $headers = [];
         // Send authorization token in the request

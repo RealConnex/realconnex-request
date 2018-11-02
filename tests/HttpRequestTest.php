@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Symfony\Component\HttpFoundation\RequestStack;
+use Realconnex\Exceptions\NonExistentServiceException;
 
 class HttpRequestTest extends \PHPUnit\Framework\TestCase
 {
@@ -18,5 +19,18 @@ class HttpRequestTest extends \PHPUnit\Framework\TestCase
         $request = new \Realconnex\HttpRequest([], new RequestStack(), true, true, false);
 
         $this->assertTrue($request->getParseJsonAssoc());
+    }
+
+    public function testWrongServiceException()
+    {
+        $request = new \Realconnex\HttpRequest([], new RequestStack(), true, true, false);
+
+        $this->expectException(NonExistentServiceException::class);
+
+        $request->sendRequest(
+            'NonExistentService',
+            'api/v1/test',
+            \Realconnex\HttpRequest::METHOD_GET
+        );
     }
 }
