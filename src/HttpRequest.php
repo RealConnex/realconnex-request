@@ -27,12 +27,15 @@ class HttpRequest
     private $verifyHost;
     /** @var bool */
     private $parseJson;
+    /** @var bool */
+    private $parseJsonAssoc = true;
     /** @var string */
     private $authToken;
     /** @var bool */
     private $provideAuth;
     /** @var string */
     private $schema = 'http://';
+
     /**
      * HttpService constructor.
      * @param array $webServices
@@ -87,6 +90,12 @@ class HttpRequest
 
         return $this;
     }
+    public function setParseJsonAssoc(bool $parseJsonAssoc): self
+    {
+        $this->parseJsonAssoc = $parseJsonAssoc;
+
+        return $this;
+    }
     /**
      * Get auth token
      */
@@ -130,6 +139,13 @@ class HttpRequest
         $this->schema = 'https://';
 
         return $this;
+    }
+
+    public function useHttp(): self
+    {
+       $this->schema = 'http://';
+
+       return $this;
     }
     /**
      * Send request to service
@@ -197,7 +213,7 @@ class HttpRequest
      */
     public function parseJson(Response $response)
     {
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode($response->getBody()->getContents(), $this->parseJsonAssoc);
     }
     /**
      * Prepares request client.

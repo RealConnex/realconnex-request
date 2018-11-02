@@ -1,11 +1,12 @@
 # realconnex-request
 Common library to make request
 
-### Installation
+#### Installation
 
 ```bash
 $ composer require realconnex/http-request
 ```
+#### Configuration
 Register class as a service in service.yml
 ```yaml
 parameters:
@@ -30,4 +31,21 @@ services:
             $webServices: '%webServices%'
             $verifyHost: '%verifyHost%'
         public: true
+```
+#### Usage
+Inject package into you class
+```php
+public function __construct(HttpRequest $httpRequest)
+{
+    $this->httpRequest = $request;
+}
+```
+Send request
+```php
+$response = $this->httpRequest->sendRequest(
+    HttpServices::MC, // service you want to reach
+    'api/v1/notifications', // uri
+    HttpRequest::METHOD_POST, // method
+    $payload // payload
+);
 ```
