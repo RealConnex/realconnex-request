@@ -6,14 +6,15 @@ namespace Realconnex;
 
 class Schema
 {
+    /** @var string */
     private $schema = 'http://';
 
-    public function useHttp()
+    public function useHttp(): void
     {
         $this->schema = 'http://';
     }
 
-    public function useHttps()
+    public function useHttps(): void
     {
         $this->schema = 'https://';
     }

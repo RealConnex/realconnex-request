@@ -16,16 +16,10 @@ class HttpRequest
     const METHOD_PUT = 'put';
     const METHOD_DELETE = 'delete';
 
-    const HEADER_AUTH_TOKEN = 'Authorization';
-
     /** @var bool flag indicates if exceptions should be processed automatically */
     private $processExceptions = true;
     /** @var bool */
     private $verifyHost = true;
-    /** @var string */
-    private $authToken;
-    /** @var bool */
-    private $provideAuth = false;
     /** @var Schema */
     private $schema;
     /** @var Reply */
@@ -34,6 +28,8 @@ class HttpRequest
     private $payload;
     /** @var Services */
     private $services;
+    /** @var Auth */
+    private $auth;
 
     /**
      * HttpService constructor.
@@ -42,12 +38,11 @@ class HttpRequest
      */
     public function __construct(array $webServices, RequestStack $requestStack)
     {
+        $this->services = new Services($webServices);
+        $this->auth = new Auth($requestStack);
         $this->schema = new Schema();
         $this->reply = new Reply();
         $this->payload = new Payload();
-        $this->services = new Services($webServices);
-        $currentRequest = $requestStack->getCurrentRequest();
-        $this->authToken = !empty($currentRequest) ? $currentRequest->headers->get(self::HEADER_AUTH_TOKEN) : null;
     }
 
     /**
@@ -102,9 +97,8 @@ class HttpRequest
         $this->services->checkService($service);
         $headers = [];
         // Send authorization token in the request
-        $authToken = $this->getAuthToken();
-        if (!empty($authToken) && $this->getProvideAuth()) {
-            $headers[self::HEADER_AUTH_TOKEN] = $authToken;
+        if (!empty($token = $this->auth->getToken()) && $this->auth->authorize()) {
+            $headers[$this->auth::HEADER_AUTH_TOKEN] = $token;
         }
 
         return new Client([
@@ -144,33 +138,6 @@ class HttpRequest
         return $multipartData;
     }
 
-//    /**
-//     * @param string $method
-//     * @throws WrongHttpMethod
-//     */
-//    private function checkMethodType(string $method): void
-//    {
-//         if (!in_array(strtolower($method), [self::METHOD_POST, self::METHOD_PUT, self::METHOD_GET, self::METHOD_DELETE])) {
-//             throw new WrongHttpMethod($method);
-//         }
-//    }
-
-//    private function preparePayload(string $method, array $data): array
-//    {
-//        $request = [];
-//        if ($method === self::METHOD_GET) {
-//            $request[RequestOptions::QUERY] = $data['data'];
-//        }
-//            if (!empty($data['files'])) { // If multipartData is not empty, we are sending files.
-//                $request[RequestOptions::MULTIPART] = $data['files'];
-//            } else {
-//                $request[RequestOptions::JSON] = $data['data'];
-//            }
-//
-//        return $request;
-//    }
-
-
     public function setParseJson(bool $parseJson): self
     {
         $this->reply->setParse($parseJson);
@@ -199,16 +166,16 @@ class HttpRequest
         return $this;
     }
 
-    public function setAuthToken(?string $authToken): self
+    public function setAuthToken(string $token): self
     {
-        $this->authToken = $authToken;
+        $this->auth->SetToken($token);
 
         return $this;
     }
 
-    public function setProvideAuth(bool $provideAuth): self
+    public function setProvideAuth(bool $provide): self
     {
-        $this->provideAuth = $provideAuth;
+        $this->auth->setAuthorize($provide);
 
         return $this;
     }
@@ -234,15 +201,6 @@ class HttpRequest
     {
         return $this->reply->isAssociative();
 
-    }
-    public function getAuthToken(): ?string
-    {
-        return $this->authToken;
-    }
-
-    public function getProvideAuth(): bool
-    {
-        return $this->provideAuth;
     }
 
     public function getProcessExceptions(): bool

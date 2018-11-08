@@ -12,6 +12,7 @@ use Realconnex\Payload\Abstracts\PayloadInterface;
 
 class Payload
 {
+    /** @var array */
     private $payloads = [];
 
     public function __construct()

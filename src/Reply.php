@@ -8,8 +8,9 @@ use GuzzleHttp\Psr7\Response;
 
 class Reply
 {
+    /** @var bool */
     private $parse = true;
-
+    /** @var bool */
     private $associative = true;
 
     public function parse(Response $response)

@@ -8,6 +8,7 @@ use Realconnex\Exceptions\NonExistentServiceException;
 
 class Services
 {
+    /** @var array */
     private $services = [];
 
     public function __construct(array $services)
