@@ -7,6 +7,7 @@ namespace Realconnex;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Psr7\Response;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class HttpRequest
@@ -118,6 +119,10 @@ class HttpRequest
     {
         $multipartData = [];
         if (!empty($files)) {
+            /**
+             * @var string $key
+             * @var UploadedFile $file
+             */
             foreach ($files as $key => $file) {
                 $multipartData[] = [
                     'name'     => "files[{$key}]",
@@ -126,6 +131,10 @@ class HttpRequest
                 ];
             }
             if (!empty($data)) {
+                /**
+                 * @var string $keyName
+                 * @var mixed $keyValue
+                 */
                 foreach ($data as $keyName => $keyValue) {
                     $multipartData[] = [
                         'name'     => $keyName,

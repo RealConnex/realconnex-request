@@ -12,7 +12,6 @@ class Services
     private $services = [];
 
     /**
-     * Services constructor.
      * @param array<string, string> $services
      */
     public function __construct(array $services)

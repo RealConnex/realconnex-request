@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class Auth
 {
+    /** @var string */
     const HEADER_AUTH_TOKEN = 'Authorization';
 
     /** @var string */
