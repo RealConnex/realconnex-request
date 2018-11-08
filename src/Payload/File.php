@@ -10,8 +10,10 @@ use Realconnex\Payload\Abstracts\PayloadInterface;
 
 class File extends PayloadAbstract implements PayloadInterface
 {
+    /** @var string */
     protected $method = 'post';
 
+    /** @var string */
     protected $key = RequestOptions::MULTIPART;
 
     public function getPayload(string $method, array $data): array

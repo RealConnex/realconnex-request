@@ -10,8 +10,10 @@ use Realconnex\Payload\Abstracts\PayloadInterface;
 
 class Post extends PayloadAbstract implements PayloadInterface
 {
+    /** @var string */
     protected $method = 'post';
 
+    /** @var string */
     protected $key = RequestOptions::JSON;
 
     public function getPayload(string $method, array $data): array

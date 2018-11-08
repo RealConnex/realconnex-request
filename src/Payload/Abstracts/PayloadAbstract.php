@@ -6,8 +6,10 @@ namespace Realconnex\Payload\Abstracts;
 
 abstract class PayloadAbstract
 {
+    /** @var string */
     protected $method;
 
+    /** @var string */
     protected $key;
 
     public function getKey(): string

@@ -11,14 +11,14 @@ class Auth
     const HEADER_AUTH_TOKEN = 'Authorization';
 
     /** @var string */
-    private $token;
+    private $token = '';
 
     /** @var bool */
     private $authorize = false;
 
     public function __construct(RequestStack $request)
     {
-        $this->token = $request->getCurrentRequest()->headers->get(self::HEADER_AUTH_TOKEN) ?? '';
+        $this->token = (string)$request->getCurrentRequest()->headers->get(self::HEADER_AUTH_TOKEN) ?? '';
     }
 
     public function getToken(): string

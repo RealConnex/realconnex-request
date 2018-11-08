@@ -8,9 +8,13 @@ use Realconnex\Exceptions\NonExistentServiceException;
 
 class Services
 {
-    /** @var array */
+    /** @var array<string, string> */
     private $services = [];
 
+    /**
+     * Services constructor.
+     * @param array<string, string> $services
+     */
     public function __construct(array $services)
     {
         foreach ($services as $name => $url) {

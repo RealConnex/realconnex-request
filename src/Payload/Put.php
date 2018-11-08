@@ -10,8 +10,10 @@ use Realconnex\Payload\Abstracts\PayloadInterface;
 
 class Put extends PayloadAbstract implements payloadinterface
 {
+    /** @var string */
     protected $method = 'put';
 
+    /** @var string */
     protected $key = RequestOptions::JSON;
 
     public function getPayload(string $method, array $data): array

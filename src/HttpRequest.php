@@ -33,12 +33,12 @@ class HttpRequest
 
     /**
      * HttpService constructor.
-     * @param array $webServices
+     * @param array<string, string> $webServices
      * @param RequestStack $requestStack
      */
-    public function __construct(array $webServices, RequestStack $requestStack)
+    public function __construct(array $services, RequestStack $requestStack)
     {
-        $this->services = new Services($webServices);
+        $this->services = new Services($services);
         $this->auth = new Auth($requestStack);
         $this->schema = new Schema();
         $this->reply = new Reply();

@@ -13,6 +13,10 @@ class Reply
     /** @var bool */
     private $associative = true;
 
+    /**
+     * @param Response $response
+     * @return array|object
+     */
     public function parse(Response $response)
     {
         return json_decode($response->getBody()->getContents(), $this->associative);
