@@ -12,8 +12,6 @@ Register class as a service in service.yml
 parameters:
     # flag indicates verification of hosts certificates
     verifyHost: '%env(bool:VERIFY_HOST)%'
-    # hostname of application frontend
-    frontendHostName: '%env(FRONTEND_HOSTNAME)%'
     # web services names configuration
     webServices:
         green: '%env(string:SERVICE_DOMAIN_GREEN)%'
@@ -37,7 +35,7 @@ Inject package into you class
 ```php
 public function __construct(HttpRequest $httpRequest)
 {
-    $this->httpRequest = $request;
+    $this->httpRequest = $httpRequest;
 }
 ```
 Send request

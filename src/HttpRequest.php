@@ -21,7 +21,7 @@ class HttpRequest
     const HEADER_AUTH_TOKEN = 'Authorization';
 
     /** @var bool flag indicates if exceptions should be processed automatically */
-    private $processExceptions = true;
+    private $processExceptions = false;
     /** @var array */
     private $webServices;
     /** @var bool */
@@ -38,7 +38,7 @@ class HttpRequest
     private $schema = 'http://';
 
     /**
-     * HttpService constructor.
+     * HttpRequest constructor.
      * @param array $webServices
      * @param RequestStack $requestStack
      * @param bool $verifyHost
