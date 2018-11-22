@@ -47,3 +47,10 @@ $response = $this->httpRequest->sendRequest(
     $payload // payload
 );
 ```
+#### Options
+- `verifyHost` – flag allows to set Guzzle client “verify” option for SSL-certificates verification.
+- `webServices` – specifies a list of web services in format “name:domain” which this service can work with.
+- `processExceptions` – flag indicates if exceptions should be processed automatically.
+- `parseJson` – flag specifies that response should be automatically parsed as JSON.
+- `authToken` – JWT token string for header Authorization.
+- `provideAuth` – flag allows to specify should service use Authorization header or not (could be used in chain of microservices).
