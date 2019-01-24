@@ -36,6 +36,8 @@ class HttpRequest
     private $provideAuth;
     /** @var string */
     private $schema = 'http://';
+    /** @var array */
+    private $options = [];
 
     /**
      * HttpRequest constructor.
@@ -186,7 +188,7 @@ class HttpRequest
                 }
             }
         }
-        $requestData = [];
+        $requestData = $this->options;
         if ($method === self::METHOD_GET) {
             $requestData[RequestOptions::QUERY] = $data;
         } else {
@@ -251,5 +253,20 @@ class HttpRequest
             'verify' => $this->verifyHost,
             'headers' => $headers
         ]);
+    }
+
+    public function setHeader($name, $value)
+    {
+        $this->options[RequestOptions::HEADERS][$name] = $value;
+        return $this;
+    }
+
+    public function removeHeader($name)
+    {
+        if (isset($this->options[RequestOptions::HEADERS][$name])) {
+            unset($this->options[RequestOptions::HEADERS][$name]);
+        }
+
+        return $this;
     }
 }
