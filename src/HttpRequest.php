@@ -10,6 +10,7 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\RequestOptions;
 use Realconnex\Exceptions\NonExistentServiceException;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class HttpRequest
 {
@@ -41,6 +42,8 @@ class HttpRequest
     private $options = [];
     /** @var \Realconnex\RequestStructure\EntityField[] */
     private $requestedEntityStructure;
+    
+    private $serializer;
 
     /**
      * HttpRequest constructor.
@@ -49,13 +52,21 @@ class HttpRequest
      * @param bool $verifyHost
      * @param bool $parseJson
      * @param bool $provideAuth
+     * @param SerializerInterface $serializer
      */
-    public function __construct(array $webServices, RequestStack $requestStack, bool $verifyHost = true, bool $parseJson = true, bool $provideAuth = false)
-    {
+    public function __construct(
+        array $webServices,
+        RequestStack $requestStack,
+        SerializerInterface $serializer,
+        bool $verifyHost = true,
+        bool $parseJson = true,
+        bool $provideAuth = false
+    ) {
         $this->webServices = $webServices;
         $this->verifyHost = $verifyHost;
         $this->parseJson = $parseJson;
         $this->provideAuth = $provideAuth;
+        $this->serializer = $serializer;
         $currentRequest = $requestStack->getCurrentRequest();
         $this->authToken = !empty($currentRequest) ? $currentRequest->headers->get(self::HEADER_AUTH_TOKEN) : null;
     }
@@ -252,7 +263,8 @@ class HttpRequest
         }
 
         if (!empty($this->requestedEntityStructure)) {
-            $headers[self::HEADER_REQUESTED_ENTITY_STRUCTURE] = $this->requestedEntityStructure;
+            $headers[self::HEADER_REQUESTED_ENTITY_STRUCTURE] = $this->serializer
+                ->serialize($this->requestedEntityStructure, 'json');
         }
 
         return new Client([

@@ -41,6 +41,9 @@ class EntityField
             }
         });
 
+        /// validate name
+        if (empty($name)) throw new \InvalidArgumentException('$name shouldn\'t blank!');
+
         $this->name = $name;
         $this->fields = $fields;
     }
