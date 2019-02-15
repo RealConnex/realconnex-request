@@ -19,6 +19,7 @@ class HttpRequest
     const METHOD_DELETE = 'delete';
 
     const HEADER_AUTH_TOKEN = 'Authorization';
+    const HEADER_REQUESTED_ENTITY_STRUCTURE = 'Authorization';
 
     /** @var bool flag indicates if exceptions should be processed automatically */
     private $processExceptions = false;
@@ -38,6 +39,8 @@ class HttpRequest
     private $schema = 'http://';
     /** @var array */
     private $options = [];
+    /** @var \Realconnex\RequestStructure\EntityField[] */
+    private $requestedEntityStructure;
 
     /**
      * HttpRequest constructor.
@@ -248,6 +251,10 @@ class HttpRequest
             $headers[self::HEADER_AUTH_TOKEN] = $authToken;
         }
 
+        if (!empty($this->requestedEntityStructure)) {
+            $headers[self::HEADER_REQUESTED_ENTITY_STRUCTURE] = $this->requestedEntityStructure;
+        }
+
         return new Client([
             'base_uri' => $this->schema . $this->webServices[$service] . '/',
             'verify' => $this->verifyHost,
@@ -267,6 +274,17 @@ class HttpRequest
             unset($this->options[RequestOptions::HEADERS][$name]);
         }
 
+        return $this;
+    }
+
+    /**
+     * @param \Realconnex\RequestStructure\EntityField[] $requestedStructure
+     *
+     * @return \Realconnex\HttpRequest
+     */
+    public function setRequestedStructure(array $requestedStructure)
+    {
+        $this->requestedEntityStructure = $requestedStructure;
         return $this;
     }
 }
