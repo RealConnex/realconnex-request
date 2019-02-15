@@ -20,7 +20,7 @@ class HttpRequest
     const METHOD_DELETE = 'delete';
 
     const HEADER_AUTH_TOKEN = 'Authorization';
-    const HEADER_REQUESTED_ENTITY_STRUCTURE = 'Authorization';
+    const HEADER_REQUESTED_ENTITY_STRUCTURE = 'entity-structure';
 
     /** @var bool flag indicates if exceptions should be processed automatically */
     private $processExceptions = false;
