@@ -26,10 +26,47 @@ class EntityField
      * EntityField constructor.
      *
      * @param string $name
-     * @param array  $fields
      */
-    public function __construct(string $name, array $fields) {
-        /// validate fields
+    public function __construct(string $name) {
+        /// force validate name
+        if (empty($name)) throw new \InvalidArgumentException('$name shouldn\'t blank!');
+
+        $this->name = $name;
+        $this->fields = [];
+    }
+
+    /**
+     * @return string
+     */
+    public function getName() : string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name) : void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return \Realconnex\RequestStructure\EntityField[]
+     */
+    public function getFields() : array
+    {
+        return $this->fields;
+    }
+
+    /**
+     * @param \Realconnex\RequestStructure\EntityField[] $fields
+     *
+     * @return \Realconnex\RequestStructure\EntityField
+     */
+    public function setFields(array $fields)
+    {
+        /// force validate fields
         array_walk($fields, function($field) {
             if(!$field instanceof EntityField) {
                 $givenClassName = get_class($field);
@@ -41,10 +78,10 @@ class EntityField
             }
         });
 
-        /// validate name
-        if (empty($name)) throw new \InvalidArgumentException('$name shouldn\'t blank!');
-
-        $this->name = $name;
         $this->fields = $fields;
+
+        return $this;
     }
+
+
 }
